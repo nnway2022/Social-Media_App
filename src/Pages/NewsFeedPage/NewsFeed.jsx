@@ -1,5 +1,6 @@
 import React from "react";
 
-export const NewsFeed = () => {
+const NewsFeed = () => {
   return <div>NewsFeed</div>;
 };
+export default NewsFeed;
