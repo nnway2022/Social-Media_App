@@ -1,5 +1,5 @@
 import React, { createContext, useContext, useEffect, useState } from "react";
-import http from "../http";
+import http from "../API/http";
 
 const UserContext = createContext();
 
@@ -10,10 +10,13 @@ export const useUserContext = () => {
 export const UserProvider = ({ children }) => {
   const [users, setUsers] = useState("");
   const [posts, setPosts] = useState("");
-  const [nav_value, set_nav_value] = useState("UserList");
   const [userId, setUserId] = useState("");
   const [postId, setPostId] = useState("");
+  const [profileImg, setProfileImg] = useState("");
 
+  // const getProfileImage = async () => {
+  //   await http.post("/api/users?populate=profile_pic");
+  // };
   // add new post
   const createNewUser = async (data) => {
     await http.post("/api/users", data);
@@ -54,7 +57,7 @@ export const UserProvider = ({ children }) => {
 
   useEffect(() => {
     const readAllusers = async () => {
-      const response = await http.get("/api/posts");
+      const response = await http.get("/api/posts?populate=profile_pic");
       const responseArr = Object.values(response.data.data);
       setPosts(responseArr);
     };
@@ -63,11 +66,11 @@ export const UserProvider = ({ children }) => {
 
   const value = {
     createNewPost,
+    posts,
     users,
     updatePost,
     deletePost,
     changeNavValue,
-    nav_value,
     getUserId,
     getPostId,
     userId,
